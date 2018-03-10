@@ -29,7 +29,7 @@ class Header extends React.Component {
                             <NavLink tag={Link} to="/">Start</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={Link} to="/sets/new">Add new set</NavLink>
+                            <NavLink tag={Link} to="/sets/new">Add a new set</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>

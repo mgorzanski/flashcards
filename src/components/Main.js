@@ -1,5 +1,5 @@
 import React from 'react';
-import { Jumbotron, Container } from 'reactstrap';
+import { Jumbotron, Container, Card, CardTitle, CardBody, ListGroup, ListGroupItem } from 'reactstrap';
 
 class Main extends React.Component {
     render () {
@@ -11,6 +11,17 @@ class Main extends React.Component {
                         <p className="lead">A simple app for learning new words and definitions.</p>
                     </Container>
                 </Jumbotron>
+
+                <Card>
+                    <CardBody>
+                        <CardTitle>List of sets:</CardTitle>
+                        <ListGroup>
+                            <ListGroupItem tag="a" href="#" action>Random set first</ListGroupItem>
+                            <ListGroupItem tag="a" href="#" action>Random set first</ListGroupItem>
+                            <ListGroupItem tag="a" href="#" action>Random set first</ListGroupItem>
+                        </ListGroup>
+                    </CardBody>
+                </Card>
             </Container>
         );
     }
