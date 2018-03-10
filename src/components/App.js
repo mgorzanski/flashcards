@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import Header from './Header';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <p>Test</p>
-      </div>
+      <React.Fragment>
+        <Header />
+      </React.Fragment>
     );
   }
 }
