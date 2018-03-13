@@ -11,16 +11,22 @@ app.use(bodyParser.json());
 
 MongoClient.connect(url, function (err, db) {
     const database = db.db('flashcards');
-    const collection = database.collection('flashcards');
-    app.get('/', (req, res) => {
-        collection.insertOne({ user: 'test' }, function (err, r) {
+
+    app.post('/api/sets/:name', (req, res) => {
+        const collection = database.collection('sets');
+        const setName = req.params.name;
+        if (setName === undefined) {
+            res.status(400).json({message: "Set name not specified!"});
+            return;
+        }
+        collection.insertOne({name: setName, userId: 1}, function (err, r) {
             if (err) {
-                res.send("An error occured");
+                console.log("An error occured");
             } else {
-                res.send("All well");
+                res.status(201).json({message: "Set created"});
             }
         });
-    }); 
+    });
 });
 
 app.listen(port);
