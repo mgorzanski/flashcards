@@ -2,7 +2,39 @@ import React from 'react';
 import { Jumbotron, Container, Card, CardTitle, CardBody, ListGroup, ListGroupItem } from 'reactstrap';
 
 class Main extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            sets: []
+        }
+    }
+
+    getSets = async () => {
+        try {
+            const response = await fetch('/api/sets', {
+                method: 'get',
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            });
+            const json = await response.json();
+            this.setState({sets: json.results});
+        }
+        catch (e) {
+            console.log('Error!', e);
+        }
+    }
+
+    componentDidMount = () => {
+        this.getSets();
+    }
+
     render () {
+        const sets = this.state.sets.map((set) =>
+            <ListGroupItem tag="a" href={"/sets/" + set._id} action key={set._id}>{set.name}</ListGroupItem>
+        );
+
         return (
             <Container>
                 <Jumbotron>
@@ -16,9 +48,7 @@ class Main extends React.Component {
                     <CardBody>
                         <CardTitle>List of sets:</CardTitle>
                         <ListGroup>
-                            <ListGroupItem tag="a" href="#" action>Random set first</ListGroupItem>
-                            <ListGroupItem tag="a" href="#" action>Random set first</ListGroupItem>
-                            <ListGroupItem tag="a" href="#" action>Random set first</ListGroupItem>
+                            {sets}
                         </ListGroup>
                     </CardBody>
                 </Card>
