@@ -38,6 +38,18 @@ MongoClient.connect(url, function (err, db) {
             }
         });
     });
+
+    app.delete('/api/sets/:id', (req, res) => {
+        const collection = database.collection('sets');
+        collection.deleteOne({"_id": req.params.id}, function (err, result) {
+            if (err) {
+                console.log("An error occured");
+                res.status(400);
+            } else {
+                res.status(200).json({message: "Set deleted"});
+            }
+        });
+    });
 });
 
 app.listen(port);

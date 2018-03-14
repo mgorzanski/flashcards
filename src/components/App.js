@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './Header';
 import Main from './Main';
 import AddSet from './AddSet';
+import Sets from './Sets';
 import './App.scss';
 
 class App extends Component {
@@ -14,7 +15,7 @@ class App extends Component {
           <main className="main">
             <Route exact path="/" component={Main} />
             <Route path="/sets/new" component={AddSet} />
-            <Route path="/sets/:id" />
+            <Route path="/sets/:id" component={Sets} />
           </main>
         </React.Fragment>
       </Router>
