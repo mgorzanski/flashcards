@@ -5,6 +5,7 @@ import Main from './Main';
 import AddSet from './AddSet';
 import Sets from './Sets';
 import './App.scss';
+import './media/open-iconic-bootstrap.scss';
 
 class App extends Component {
   render() {
