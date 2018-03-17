@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, Card, CardHeader, CardBody, Form, FormGroup, Label, Input, Button, Col } from 'reactstrap';
+import { Container, Card, CardHeader, CardBody, Form, FormGroup, Label, Input, Button, Col, Alert } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 class AddSet extends React.Component {
     constructor(props) {
@@ -7,24 +8,34 @@ class AddSet extends React.Component {
 
         this.state = {
             setName: '',
-            canPressSubmitButton: false
+            canPressSubmitButton: false,
+            displaySuccessAlert: false,
+            displayDangerAlert: false,
+            lastSetId: ''
         }
     }
 
     handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response =  await fetch('/api/sets/' + this.state.setName, {
+            const response = await fetch('/api/sets', {
                 method: 'post',
                 headers: new Headers({
                     'Content-Type': 'application/json'
+                }),
+                body: JSON.stringify({
+                    name: this.state.setName
                 })
             });
             const json = await response.json();
-            console.log(json);
+            if(response.status !== 400) {
+                this.setState({displayDangerAlert: false, displaySuccessAlert: true, lastSetId: json.lastSetId});
+            } else {
+                this.setState({displaySuccessAlert: false, displayDangerAlert: true});
+            }
         }
         catch (e) {
-            console.log('Error!', e);
+            this.setState({displaySuccessAlert: false, displayDangerAlert: true});
         }
     }
 
@@ -40,9 +51,22 @@ class AddSet extends React.Component {
 
     render() {
         const canPressSubmitButton = this.state.canPressSubmitButton;
+        const displaySuccessAlert = this.state.displaySuccessAlert;
+        const displayDangerAlert = this.state.displayDangerAlert;
 
         return (
             <Container>
+                {displaySuccessAlert ? (
+                    <Alert color="success">
+                        Set added succesfully! <Link to={'/sets/' + this.state.lastSetId}>Add new words</Link> to it.
+                    </Alert>
+                ) : ''}
+
+                {displayDangerAlert ? (
+                    <Alert color="danger">
+                        An error occurred.
+                    </Alert>
+                ) : ''}
                 <Card>
                     <CardHeader>Add a new set</CardHeader>
                     <CardBody>
