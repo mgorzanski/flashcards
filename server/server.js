@@ -30,7 +30,7 @@ MongoClient.connect(url, function (err, db) {
 
     app.get('/api/sets', (req, res) => {
         const collection = database.collection('sets');
-        const results = collection.find({userId: 1}).toArray(function (err, results) {
+        collection.find({userId: 1}).toArray(function (err, results) {
             if (err) {
                 console.log("An error occured");
             } else {
