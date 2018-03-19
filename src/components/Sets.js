@@ -6,7 +6,8 @@ class Sets extends React.Component {
         super(props);
 
         this.state = {
-            set: ''
+            set: '',
+            dataLoaded: false
         }
     }
 
@@ -20,7 +21,7 @@ class Sets extends React.Component {
             });
             const json = await response.json();
             if (response.status === 200) {
-                this.setState({set: json.set});
+                this.setState({set: json.set, dataLoaded: true});
             } else {
                 console.log(json.message);
             }
@@ -35,49 +36,53 @@ class Sets extends React.Component {
     }
 
     render () {
+        const dataLoaded = this.state.dataLoaded;
+
         return (
             <Container>
-                <section className="set">
-                    <div className="set__top">
-                        <h3>{this.state.set.name}</h3>
-                        <nav className="set__options">
-                            <Button color="primary">Learn</Button>{' '}
-                            <Button color="warning">Edit</Button>{' '}
-                            <Button color="danger">Delete</Button>
-                        </nav>
-                    </div>
+                {dataLoaded ? (
+                    <section className="set">
+                        <div className="set__top">
+                            <h2 className="set__title">{this.state.set.name}</h2>
+                            <nav className="set__options">
+                                <Button color="primary">Learn</Button>{' '}
+                                <Button color="warning">Edit</Button>{' '}
+                                <Button color="danger">Delete</Button>
+                            </nav>
+                        </div>
 
-                    <div className="set__body">
-                        <h4>Words</h4>
-                        <Table>
-                            <thead>
-                                <tr>
-                                    <th>Definition</th>
-                                    <th>Explanation</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Test word</td>
-                                    <td>Tłumaczenie</td>
-                                    <td><span className="oi oi-pencil" aria-hidden="true"></span>{' '}<span className="oi oi-trash" aria-hidden="true"></span></td>
-                                </tr>
-                            </tbody>
-                        </Table>
-                        <Form inline>
-                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                <Label for="definitionInput" className="mr-sm-2">Definition</Label>
-                                <Input type="text" name="definition" id="definitionInput" />
-                            </FormGroup>
-                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                <Label for="explanationInput" className="mr-sm-2">Explanation</Label>
-                                <Input type="text" name="explanation" id="explanationInput" />
-                            </FormGroup>
-                            <Button color="success">Add</Button>
-                        </Form>
-                    </div>
-                </section>
+                        <div className="set__body">
+                            <h4>Words</h4>
+                            <Table>
+                                <thead>
+                                    <tr>
+                                        <th>Definition</th>
+                                        <th>Explanation</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Test word</td>
+                                        <td>Tłumaczenie</td>
+                                        <td><span className="oi oi-pencil" aria-hidden="true"></span>{' '}<span className="oi oi-trash" aria-hidden="true"></span></td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                            <Form inline>
+                                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                                    <Label for="definitionInput" className="mr-sm-2">Definition</Label>
+                                    <Input type="text" name="definition" id="definitionInput" />
+                                </FormGroup>
+                                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                                    <Label for="explanationInput" className="mr-sm-2">Explanation</Label>
+                                    <Input type="text" name="explanation" id="explanationInput" />
+                                </FormGroup>
+                                <Button color="success">Add</Button>
+                            </Form>
+                        </div>
+                    </section>
+                ) : ''}
             </Container>
         );
     }
