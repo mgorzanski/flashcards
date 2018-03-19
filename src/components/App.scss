@@ -9,3 +9,7 @@
 .set__title {
     margin-bottom:15px;
 }
+
+.set__edit-form {
+    @extend .set__title;
+}

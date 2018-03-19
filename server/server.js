@@ -65,6 +65,17 @@ MongoClient.connect(url, function (err, db) {
             }
         });
     });
+
+    app.put('/api/sets/:id', (req, res) => {
+        const collection = database.collection('sets');
+        collection.updateOne({_id: ObjectId(req.params.id), userId: 1}, {$set: {name: req.body.name}}, function (err, r) {
+            if (err) {
+                res.status(400).json({message: "An error occurred"});
+            } else {
+                res.status(201).json({message: "Set updated", set: r});
+            }
+        });
+    });
 });
 
 app.listen(port);
