@@ -2,12 +2,44 @@ import React from 'react';
 import { Container, Button, Table, Form, Label, FormGroup, Input } from 'reactstrap';
 
 class Sets extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            set: ''
+        }
+    }
+
+    getCurrentSet = async () => {
+        try {
+            const response = await fetch('/api/sets/' + this.props.match.params.id, {
+                method: 'get',
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            });
+            const json = await response.json();
+            if (response.status === 200) {
+                this.setState({set: json.set});
+            } else {
+                console.log(json.message);
+            }
+        }
+        catch (e) {
+            console.log('Error!', e);
+        }
+    }
+
+    componentWillMount = () => {
+        this.getCurrentSet();
+    }
+
     render () {
         return (
             <Container>
                 <section className="set">
                     <div className="set__top">
-                        <h3>set.name</h3>
+                        <h3>{this.state.set.name}</h3>
                         <nav className="set__options">
                             <Button color="primary">Learn</Button>{' '}
                             <Button color="warning">Edit</Button>{' '}
@@ -29,7 +61,7 @@ class Sets extends React.Component {
                                 <tr>
                                     <td>Test word</td>
                                     <td>Tłumaczenie</td>
-                                    <td><span class="oi oi-pencil" aria-hidden="true"></span>{' '}<span class="oi oi-trash" aria-hidden="true"></span></td>
+                                    <td><span className="oi oi-pencil" aria-hidden="true"></span>{' '}<span className="oi oi-trash" aria-hidden="true"></span></td>
                                 </tr>
                             </tbody>
                         </Table>
