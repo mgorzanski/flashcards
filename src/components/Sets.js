@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, Button, Table, Form, Label, FormGroup, Input } from 'reactstrap';
+import { Container, Button, Table, Form, Label, FormGroup, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Redirect } from 'react-router';
 
 class Sets extends React.Component {
     constructor(props) {
@@ -10,7 +11,9 @@ class Sets extends React.Component {
             dataLoaded: false,
             editingSetName: false,
             newSetName: '',
-            canPressSubmitButton: true
+            canPressSubmitButton: true,
+            modal: false,
+            redirect: false
         }
     }
 
@@ -79,10 +82,38 @@ class Sets extends React.Component {
         this.updateSetName();
     }
 
+    toggleModal = () => {
+        this.setState({modal: !this.state.modal});
+    }
+
+    deleteSet = async () => {
+        try {
+            const response = await fetch('/api/sets/' + this.props.match.params.id, {
+                method: 'delete',
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            });
+
+            if (response.status === 200) {
+                this.toggleModal();
+                this.setState({redirect: true});
+            }
+        }
+        catch (e) {
+            console.log('Error!', e);
+        }
+    }
+
     render () {
         const dataLoaded = this.state.dataLoaded;
         const editingSetName = this.state.editingSetName;
         const canPressSubmitButton = this.state.canPressSubmitButton;
+        const redirect = this.state.redirect;
+
+        if (redirect) {
+            return <Redirect to='/' />;
+        }
 
         return (
             <Container>
@@ -115,7 +146,7 @@ class Sets extends React.Component {
                                 <nav className="set__options">
                                     <Button color="primary">Learn</Button>{' '}
                                     <Button color="warning" onClick={() => this.handleEdit()}>Edit</Button>{' '}
-                                    <Button color="danger">Delete</Button>
+                                    <Button color="danger" onClick={this.toggleModal}>Delete</Button>
                                 </nav>
                             )}
                         </div>
@@ -152,6 +183,15 @@ class Sets extends React.Component {
                         </div>
                     </section>
                 ) : ''}
+
+                <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
+                    <ModalHeader toggle={this.toggleModal}>Confirmation</ModalHeader>
+                    <ModalBody>Are you sure you want to delete this set?</ModalBody>
+                    <ModalFooter>
+                        <Button color="danger" onClick={() => this.deleteSet()}>Delete</Button>
+                        <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
             </Container>
         );
     }
