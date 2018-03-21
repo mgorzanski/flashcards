@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './Header';
 import Main from './Main';
-import AddSet from './AddSet';
-import Sets from './Sets';
+import AddSet from './Sets/AddSet';
+import Sets from './Sets/index';
 import './App.scss';
 import './media/open-iconic-bootstrap.scss';
 
