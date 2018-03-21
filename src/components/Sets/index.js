@@ -1,6 +1,7 @@
 import React from 'react';
-import { Container, Button, Table, Form, Label, FormGroup, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Container, Button, FormGroup, Form, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Redirect } from 'react-router';
+import Words from './Words';
 
 class Sets extends React.Component {
     constructor(props) {
@@ -152,34 +153,7 @@ class Sets extends React.Component {
                         </div>
 
                         <div className="set__body">
-                            <h4>Words</h4>
-                            <Table>
-                                <thead>
-                                    <tr>
-                                        <th>Definition</th>
-                                        <th>Explanation</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Test word</td>
-                                        <td>Tłumaczenie</td>
-                                        <td><span className="oi oi-pencil" aria-hidden="true"></span>{' '}<span className="oi oi-trash" aria-hidden="true"></span></td>
-                                    </tr>
-                                </tbody>
-                            </Table>
-                            <Form inline>
-                                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                    <Label for="definitionInput" className="mr-sm-2">Definition</Label>
-                                    <Input type="text" name="definition" id="definitionInput" />
-                                </FormGroup>
-                                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                    <Label for="explanationInput" className="mr-sm-2">Explanation</Label>
-                                    <Input type="text" name="explanation" id="explanationInput" />
-                                </FormGroup>
-                                <Button color="success">Add</Button>
-                            </Form>
+                            <Words setId={this.props.match.params.id} userId="1" />
                         </div>
                     </section>
                 ) : ''}
