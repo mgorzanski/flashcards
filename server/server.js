@@ -76,6 +76,26 @@ MongoClient.connect(url, function (err, db) {
             }
         });
     });
+
+    app.post('/api/sets/:id/words', (req, res) => {
+        const collection = database.collection('words');
+        const setId = req.params.id;
+        const word = req.body.word;
+        if (setId === undefined || word === undefined) {
+            res.status(400).json({message: "Set name not specified!"});
+            return;
+        }
+
+        const objectToInsert = {definition: word.definition, explanation: word.explanation, setId: setId};
+        collection.insertOne(objectToInsert, function (err, r) {
+            if (err) {
+                console.log("An error occured");
+                res.status(400).json({message: "An error occurred"});
+            } else {
+                res.status(201).json({message: "Word added", lastSetId: objectToInsert._id});
+            }
+        });
+    });
 });
 
 app.listen(port);

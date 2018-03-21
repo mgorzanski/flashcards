@@ -23,7 +23,7 @@ class Words extends React.Component {
                         </tr>
                     </tbody>
                 </Table>
-                <AddWord setId={1} userId={1} />
+                <AddWord setId={this.props.setId} userId={1} />
             </React.Fragment>
         );
     }
