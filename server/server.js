@@ -133,6 +133,26 @@ MongoClient.connect(url, function (err, db) {
             }
         });
     });
+
+    app.put('/api/sets/:id/words/:word', (req, res) => {
+        const collection = database.collection('words');
+        const setId = req.params.id;
+        const wordId = req.params.word;
+        const word = req.body.word;
+        if (setId === undefined || wordId === undefined) {
+            res.status(400).json({message: "Set id or word id not specified!"});
+            return;
+        }
+
+        collection.updateOne({setId: setId, _id: ObjectId(wordId)}, { $set: {definition: word.definition, explanation: word.explanation}}, function (err, r) {
+            if (err) {
+                console.log("An error occured");
+                res.status(400).json({message: "An error occurred"});
+            } else {
+                res.status(200).json({mesage: "Word has been updated"});
+            }
+        });
+    });
 });
 
 app.listen(port);
