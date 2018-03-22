@@ -24,6 +24,8 @@ class AddWord extends React.Component {
                     word: {definition: this.state.definition, explanation: this.state.explanation}
                 })
             });
+            this.setState({definition: '', explanation: '', canPressSubmitButton: false});
+            this.props.refreshWordsList();
         }
         catch (e) {
             console.log('Error!', e);
@@ -51,11 +53,11 @@ class AddWord extends React.Component {
             <Form inline onSubmit={this.handleSubmit}>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                     <Label for="definitionInput" className="mr-sm-2">Definition</Label>
-                    <Input type="text" name="definition" id="definitionInput" onChange={this.handleChange} />
+                    <Input type="text" name="definition" id="definitionInput" value={this.state.definition} onChange={this.handleChange} />
                 </FormGroup>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                     <Label for="explanationInput" className="mr-sm-2">Explanation</Label>
-                    <Input type="text" name="explanation" id="explanationInput" onChange={this.handleChange} />
+                    <Input type="text" name="explanation" id="explanationInput" value={this.state.explanation} onChange={this.handleChange} />
                 </FormGroup>
                 {canPressSubmitButton ? (
                     <Button color="success">Add</Button>

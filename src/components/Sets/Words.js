@@ -3,7 +3,43 @@ import { Table } from 'reactstrap';
 import AddWord from './AddWord';
 
 class Words extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            words: []
+        }
+    }
+
+    getWords = async () => {
+        try {
+            const response = await fetch('/api/sets/' + this.props.setId + '/words', {
+                method: 'get',
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            });
+            const json = await response.json();
+            this.setState({words: json.words});
+        }
+        catch (e) {
+            console.log('Error!', e);
+        }
+    }
+
+    componentDidMount = () => {
+        this.getWords();
+    }
+
     render() {
+        const words = this.state.words.map(word =>
+            <tr key={word._id}>
+                <td>{word.definition}</td>
+                <td>{word.explanation}</td>
+                <td><span className="oi oi-pencil" aria-hidden="true"></span>{' '}<span className="oi oi-trash" aria-hidden="true"></span></td>
+            </tr>
+        );
+
         return (
             <React.Fragment>
                 <h4>Words</h4>
@@ -16,14 +52,10 @@ class Words extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Test word</td>
-                            <td>Tłumaczenie</td>
-                            <td><span className="oi oi-pencil" aria-hidden="true"></span>{' '}<span className="oi oi-trash" aria-hidden="true"></span></td>
-                        </tr>
+                        {words}
                     </tbody>
                 </Table>
-                <AddWord setId={this.props.setId} userId={1} />
+                <AddWord setId={this.props.setId} userId={1} refreshWordsList={this.getWords} />
             </React.Fragment>
         );
     }
