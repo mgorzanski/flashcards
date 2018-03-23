@@ -71,7 +71,7 @@ class AddSet extends React.Component {
                     <CardHeader>Add a new set</CardHeader>
                     <CardBody>
                         <Form onSubmit={this.handleSubmit}>
-                            <FormGroup row>                    
+                            <FormGroup row>
                                 <Label for="inputName" sm={1}>Name</Label>
                                 <Col sm={5}>
                                     <Input type="text" name="name" id="inputName" value={this.state.setName} onChange={this.handleChange} />

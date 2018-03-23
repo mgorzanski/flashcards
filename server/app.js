@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
-const url = "mongodb://mo7406_fc:SpKIyvgCEFO1e47IvO6a@mongo.ct8.pl";
+const url = "mongodb://mo7406_fc:SpKIyvgCEFO1e47IvO6a@mongo.ct8.pl:27017/mo7406_fc";
 
 const port = process.env.PORT || 8080;
 
@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 MongoClient.connect(url, function (err, db) {
-    const database = db.db('flashcards');
+    const database = db.db('mo7406_fc');
 
     app.post('/api/sets', (req, res) => {
         const collection = database.collection('sets');
